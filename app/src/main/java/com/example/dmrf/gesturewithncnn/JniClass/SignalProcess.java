@@ -9,7 +9,7 @@ public class SignalProcess {
 
 
     static {
-        System.loadLibrary("signalnative");
+        System.loadLibrary("signalprocess");
     }
 
 }

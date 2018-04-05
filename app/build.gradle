@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.example.dmrf.gesturewithncnn"
         minSdkVersion 15
@@ -11,12 +12,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a'
-            stl "gnustl_static"
-        }
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
         }
     }
     buildTypes {
@@ -25,10 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
+    sourceSets.main {
+        jniLibs.srcDirs = ["src/main/libs"]
+        jni.srcDirs=[]
     }
 
 }
@@ -40,4 +34,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'cn.bmob.android:bmob-sdk:3.5.5'
+    implementation 'com.github.dfqin:grantor:2.1.0'
 }
