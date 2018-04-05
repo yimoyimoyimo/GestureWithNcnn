@@ -1,15 +1,12 @@
 package com.example.dmrf.gesturewithncnn.Activity;
 
 
-import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example.dmrf.gesturewithncnn.JavaBean.GlobalBean;

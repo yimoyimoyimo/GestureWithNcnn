@@ -110,6 +110,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Copyright © 2018.03.16 NUAA_Geature"
+        android:text="Copyright © 2018.04 NUAA_Geature"
         android:textColor="#9370DB" />
 </LinearLayout>
