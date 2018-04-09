@@ -13,6 +13,13 @@ android {
         ndk {
             abiFilters 'armeabi-v7a'
         }
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+
+            }
+
+        }
     }
     buildTypes {
         release {

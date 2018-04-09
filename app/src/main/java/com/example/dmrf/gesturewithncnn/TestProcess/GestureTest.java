@@ -2,7 +2,7 @@ package com.example.dmrf.gesturewithncnn.TestProcess;
 
 import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
+
 
 import com.example.dmrf.gesturewithncnn.JniClass.GestureNcnn;
 
@@ -33,15 +33,17 @@ public class GestureTest {
         float i_Data[]=new float[4400];
         float q_Data[]=new float[4400];
 
+
         for (int i=0;i<4400;i++){
             i_Data[i]= (float) Math.random();
             q_Data[i]= (float) Math.random();
         }
+
         float score[]=new float[13];
         int len_i[]=new int[1];
         len_i[0]=4400;
         gestureNcnn.Detect(i_Data,q_Data,score,len_i);
-        Log.i("test:","score:"+score[0]+","+score[1]+","+score[2]);
+
 
     }
 
@@ -62,7 +64,7 @@ public class GestureTest {
         File sdDir = Environment.getExternalStorageDirectory();//获取跟目录
         String sdPath = sdDir.toString() + "/gesturencnn/";
         boolean b = gestureNcnn.InitNcnn(sdPath);
-        Log.i("test:","b:"+b);
+
 
     }
 
