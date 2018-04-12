@@ -73,6 +73,8 @@ public class GlobalBean {
     variable
      */
     public boolean flag = true;        //播放标志
+    public boolean flag1 = false;        //jieshu标志
+
     public ArrayList<Double> L_I[];
     public ArrayList<Double> L_Q[];
 
@@ -117,6 +119,7 @@ public class GlobalBean {
 
                         FPlay.colseWaveZ();
                         audioRecord.stop();
+                        flag1 = false;
 
                     } else if (msg.obj.toString().equals("playe")) {
                         Toast.makeText(context, "发生了异常，请联系最帅的人优化代码～", Toast.LENGTH_SHORT).show();
@@ -249,6 +252,7 @@ public class GlobalBean {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
+                Stop();
                 // TODO 自动生成的方法存根
 
             }
@@ -259,9 +263,8 @@ public class GlobalBean {
 
     @SuppressLint("ResourceAsColor")
     public void Stop() {
-
+        flag1 = true;
     }
-
     public void AddDataToList(ArrayList<Double>[] list, double[] data) {
 
         int count = -1;

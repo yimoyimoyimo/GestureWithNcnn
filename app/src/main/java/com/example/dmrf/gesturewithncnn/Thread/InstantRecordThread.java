@@ -41,7 +41,7 @@ public class InstantRecordThread extends Thread {
 
         } catch (IllegalStateException e) {
             // 录音开始失败
-            Toast.makeText(context, "录音开始失败！", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "录音开始失败！", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return;
         }
@@ -83,7 +83,8 @@ public class InstantRecordThread extends Thread {
                 globalBean.mHandler.sendMessage(msg3);
                 while_count = 0;
                 begin_while++;
-            } else if (while_count == 20 && begin_while > 0) {
+            } else if (while_count == 10 && begin_while > 0)
+            {
 
             //    SaveData();
                 while_count = 0;
@@ -105,7 +106,7 @@ public class InstantRecordThread extends Thread {
                 msg3.obj = ("start");
                 globalBean.mHandler.sendMessage(msg3);
             }
-            if (begin_while == 11) {
+           if (globalBean.flag1==true) {
 
                 Message msg2 = new Message();
                 msg2.what = 0;
