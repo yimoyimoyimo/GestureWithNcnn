@@ -37,9 +37,6 @@ import java.util.Date;
 
 public class GlobalBean {
 
-
-
-
    /*
    set audio
     */
@@ -74,6 +71,7 @@ public class GlobalBean {
      */
     public boolean flag = true;        //播放标志
     public boolean flag1 = false;        //jieshu标志
+    public boolean senddataflag=true;   //发送数据标志
 
     public ArrayList<Double> L_I[];
     public ArrayList<Double> L_Q[];
@@ -85,6 +83,8 @@ public class GlobalBean {
 
     private GestureNcnn gestureNcnn;
     public SignalProcess signalProcess;
+
+
 
 
     @SuppressLint("HandlerLeak")

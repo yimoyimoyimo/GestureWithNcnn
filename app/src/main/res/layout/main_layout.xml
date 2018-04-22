@@ -3,15 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@mipmap/backpic"
+    android:orientation="vertical"
     tools:context=".Activity.MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/no_network_worning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_radius_nonetwork_worning"
+            android:gravity="center_horizontal"
+            android:text="您的网络状况不佳，请检查网络！"
+            android:textColor="#1C1C1C"
+            android:textSize="20dp"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.3" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,9 +60,9 @@
                 android:layout_gravity="center"
                 android:alpha="0.5"
                 android:text="停止"
-                android:visibility="gone"
                 android:textColor="#008000"
-                android:textSize="30dp" />
+                android:textSize="30dp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -54,12 +70,12 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/flag_small"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/flag_small"
-        android:src="@mipmap/flag_smile" />
+        android:src="@mipmap/flag_smile"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
