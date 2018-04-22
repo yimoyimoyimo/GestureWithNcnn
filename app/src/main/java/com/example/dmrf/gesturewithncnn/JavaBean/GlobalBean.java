@@ -52,7 +52,7 @@ public class GlobalBean {
     public int sampleRateInHz = 44100;//采样率（默认44100，每秒44100个点）
     public int recBufSize = 4400;            //定义录音片长度
     public int numfre = 8;
-    public char[] CODE = {'A', 'B', 'C', 'J', 'K', 'F', 'G', 'L', 'M', 'N', 'O', 'H', 'I'};
+    public char[] CODE = {'A', 'B', 'C', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'};
     public float[] scores = new float[13];
     public int[] len_i = new int[2];
 
