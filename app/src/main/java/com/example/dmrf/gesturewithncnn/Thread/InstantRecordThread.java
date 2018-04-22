@@ -133,35 +133,6 @@ public class InstantRecordThread extends Thread {
 
     }
 
-    private void SaveData() {
-
-        DataBean dataBean = new DataBean();
-        dataBean.setI0(globalBean.L_I[0].toString());
-        dataBean.setI1(globalBean.L_I[1].toString());
-        dataBean.setI2(globalBean.L_I[2].toString());
-        dataBean.setI3(globalBean.L_I[3].toString());
-        dataBean.setI4(globalBean.L_I[4].toString());
-        dataBean.setI5(globalBean.L_I[5].toString());
-        dataBean.setI6(globalBean.L_I[6].toString());
-        dataBean.setI7(globalBean.L_I[7].toString());
-
-
-        dataBean.setQ0(globalBean.L_Q[0].toString());
-        dataBean.setQ1(globalBean.L_Q[1].toString());
-        dataBean.setQ2(globalBean.L_Q[2].toString());
-        dataBean.setQ3(globalBean.L_Q[3].toString());
-        dataBean.setQ4(globalBean.L_Q[4].toString());
-        dataBean.setQ5(globalBean.L_Q[5].toString());
-        dataBean.setQ6(globalBean.L_Q[6].toString());
-        dataBean.setQ7(globalBean.L_Q[7].toString());
-        dataBean.setWhoandwhich(globalBean.whoandwhich);
-
-        long time = System.currentTimeMillis();
-        dataBean.setFilename(String.valueOf(time));
-
-        SendDataUtils sendDataUtils = new SendDataUtils(dataBean, context, globalBean);
-        sendDataUtils.execute("");
-    }
 
 
 

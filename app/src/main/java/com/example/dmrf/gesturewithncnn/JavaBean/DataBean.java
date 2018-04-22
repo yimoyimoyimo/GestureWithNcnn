@@ -26,17 +26,20 @@ public class DataBean extends BmobObject {
     private String Q6;
     private String Q7;
 
+    public String getPre_label() {
+        return Pre_label;
+    }
+
+    public void setPre_label(String pre_label) {
+        Pre_label = pre_label;
+    }
+
+    private String Pre_label;
+
 
     private String filename;
-    private String whoandwhich;
 
-    public String getWhoandwhich() {
-        return whoandwhich;
-    }
 
-    public void setWhoandwhich(String whoandwhich) {
-        this.whoandwhich = whoandwhich;
-    }
 
     public String getFilename() {
         return filename;

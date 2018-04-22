@@ -1,7 +1,10 @@
 package com.example.dmrf.gesturewithncnn.JavaBean;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -9,18 +12,24 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.dmrf.gesturewithncnn.Activity.MainActivity;
 import com.example.dmrf.gesturewithncnn.JniClass.GestureNcnn;
 import com.example.dmrf.gesturewithncnn.JniClass.SignalProcess;
+import com.example.dmrf.gesturewithncnn.R;
 import com.example.dmrf.gesturewithncnn.Thread.InstantPlayThread;
 import com.example.dmrf.gesturewithncnn.Thread.InstantRecordThread;
 import com.example.dmrf.gesturewithncnn.Utils.FrequencyPlayerUtils;
 import com.example.dmrf.gesturewithncnn.Utils.InitGestureNcnnUtils;
+import com.example.dmrf.gesturewithncnn.Utils.NetWorkUtils;
+import com.example.dmrf.gesturewithncnn.Utils.SendDataUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,19 +68,22 @@ public class GlobalBean {
      */
     public Button btnPlayRecord;        //开始按钮
     public Button btnStopRecord;        //结束按钮
+    public Button btnSet;        //结束按钮
     public TextView tvDist;
     public TextView tvDist2;
+    public TextView no_network_worning;
     public ImageView flag_small;
+    public CheckBox CkBox_send;
 
     public int is_in_count = -1;
-    public int gesture_length=1100;
+    public int gesture_length = 1100;
 
     /*
     variable
      */
     public boolean flag = true;        //播放标志
     public boolean flag1 = false;        //jieshu标志
-    public boolean senddataflag=true;   //发送数据标志
+    public boolean senddataflag = true;   //发送数据标志
 
     public ArrayList<Double> L_I[];
     public ArrayList<Double> L_Q[];
@@ -85,8 +97,6 @@ public class GlobalBean {
     public SignalProcess signalProcess;
 
 
-
-
     @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler() {
         //设置圆环角度
@@ -97,8 +107,12 @@ public class GlobalBean {
                 case 0:
                     if (msg.obj.toString().equals("wait")) {
                         flag_small.setVisibility(View.GONE);
-                        PredictGesture(0, tvDist);
-                        PredictGesture(550, tvDist2);
+                        long time = System.currentTimeMillis();
+                        final String day = String.valueOf(time);
+
+
+                        PredictGesture(0, tvDist, day + "_0");
+                        PredictGesture(550, tvDist2, day + "_1");
 
 
                         for (int i = 0; i < 8; i++) {
@@ -136,7 +150,7 @@ public class GlobalBean {
     };
 
 
-    private void PredictGesture(int a, TextView textView) {//第一个a为0，第二个a为550
+    private void PredictGesture(int a, TextView textView, String name) {//第一个a为0，第二个a为550
 
         float data_i[] = new float[4400];
         float data_q[] = new float[4400];
@@ -164,7 +178,10 @@ public class GlobalBean {
             }
         }
 
+
         textView.setText(CODE[max_index] + ":" + max);
+
+        SaveData(name, max_index);
 
     }
 
@@ -174,8 +191,8 @@ public class GlobalBean {
 
     public void Init() throws IOException {
 
-        gestureNcnn=new GestureNcnn();
-        InitGestureNcnnUtils initGestureNcnnUtils=new InitGestureNcnnUtils(context);
+        gestureNcnn = new GestureNcnn();
+        InitGestureNcnnUtils initGestureNcnnUtils = new InitGestureNcnnUtils(context);
         initGestureNcnnUtils.InitSqueezeNcnn(gestureNcnn);
 
 
@@ -217,11 +234,17 @@ public class GlobalBean {
             @Override
             public void onClick(View v) {
 
+                senddataflag = CkBox_send.isChecked();
 
-                btnPlayRecord.setVisibility(View.GONE);
+                if (senddataflag) {
+
+                    if (NetWorkUtils.getAPNType(context) == 0) {
+                        no_network_worning.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                }
 
 
-                btnStopRecord.setVisibility(View.VISIBLE);
                 if (whoandwhich.equals("")) {
                     Toast.makeText(context, "不告诉我你是谁不让你录！", Toast.LENGTH_SHORT).show();
                     return;
@@ -258,6 +281,13 @@ public class GlobalBean {
             }
         });
 
+        btnSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowChoiseWhich();
+            }
+        });
+
     }
 
 
@@ -265,6 +295,7 @@ public class GlobalBean {
     public void Stop() {
         flag1 = true;
     }
+
     public void AddDataToList(ArrayList<Double>[] list, double[] data) {
 
         int count = -1;
@@ -288,6 +319,60 @@ public class GlobalBean {
 
         flag = true;
 
+    }
+
+
+    public void ShowChoiseWhich() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Holo_Light_Dialog);
+        //builder.setIcon(R.drawable.ic_launcher);
+        builder.setTitle("设置手势种类");
+        //    指定下拉列表的显示数据
+        final String[] codes = {"ncnntest", "static", "push left", "push right", "click", "flip", "grab", "release"};
+
+
+        //    设置一个下拉的列表选择项
+        builder.setItems(codes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                whoandwhich = codes[which];
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        final Window window = alertDialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
+        alertDialog.show();
+    }
+
+
+    private void SaveData(String name, int max_index) {
+
+        DataBean dataBean = new DataBean();
+        dataBean.setI0(L_I[0].toString());
+        dataBean.setI1(L_I[1].toString());
+        dataBean.setI2(L_I[2].toString());
+        dataBean.setI3(L_I[3].toString());
+        dataBean.setI4(L_I[4].toString());
+        dataBean.setI5(L_I[5].toString());
+        dataBean.setI6(L_I[6].toString());
+        dataBean.setI7(L_I[7].toString());
+
+
+        dataBean.setQ0(L_Q[0].toString());
+        dataBean.setQ1(L_Q[1].toString());
+        dataBean.setQ2(L_Q[2].toString());
+        dataBean.setQ3(L_Q[3].toString());
+        dataBean.setQ4(L_Q[4].toString());
+        dataBean.setQ5(L_Q[5].toString());
+        dataBean.setQ6(L_Q[6].toString());
+        dataBean.setQ7(L_Q[7].toString());
+        dataBean.setPre_label(String.valueOf(max_index));
+        dataBean.setFilename(whoandwhich + "_" + name);
+
+        SendDataUtils sendDataUtils = new SendDataUtils(dataBean, context, this);
+        sendDataUtils.execute("");
     }
 
 
