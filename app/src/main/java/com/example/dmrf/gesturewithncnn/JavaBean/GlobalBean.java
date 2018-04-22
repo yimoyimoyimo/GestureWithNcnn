@@ -89,7 +89,7 @@ public class GlobalBean {
     public ArrayList<Double> L_Q[];
 
 
-    public String whoandwhich = "ncnntest";
+    public String whoandwhich = "W";
 
     private Context context;
 
@@ -127,9 +127,9 @@ public class GlobalBean {
                     } else if (msg.obj.toString().equals("stop")) {
                         flag_small.setVisibility(View.GONE);
 
-                        btnPlayRecord.setVisibility(View.VISIBLE);
+                        // btnPlayRecord.setVisibility(View.VISIBLE);
 
-                        btnStopRecord.setVisibility(View.GONE);
+                        //btnStopRecord.setVisibility(View.GONE);
 
                         FPlay.colseWaveZ();
                         audioRecord.stop();
@@ -181,7 +181,10 @@ public class GlobalBean {
 
         textView.setText(CODE[max_index] + ":" + max);
 
-        SaveData(name, max_index);
+        if (senddataflag) {
+            SaveData(name, max_index, data_i, data_q);
+        }
+
 
     }
 
@@ -220,7 +223,7 @@ public class GlobalBean {
                 recBufSize);//录音片段的长度，给的是minBufSize=recBufSize = 4400 * 2;
 
 
-        btnStopRecord.setVisibility(View.GONE);
+        // btnStopRecord.setVisibility(View.GONE);
 
         InitListener();
 
@@ -228,6 +231,7 @@ public class GlobalBean {
     }
 
     private void InitListener() {
+
 
         btnPlayRecord.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
@@ -347,27 +351,29 @@ public class GlobalBean {
     }
 
 
-    private void SaveData(String name, int max_index) {
+    private void SaveData(String name, int max_index, float[] data_i, float[] data_q) {
 
         DataBean dataBean = new DataBean();
-        dataBean.setI0(L_I[0].toString());
-        dataBean.setI1(L_I[1].toString());
-        dataBean.setI2(L_I[2].toString());
-        dataBean.setI3(L_I[3].toString());
-        dataBean.setI4(L_I[4].toString());
-        dataBean.setI5(L_I[5].toString());
-        dataBean.setI6(L_I[6].toString());
-        dataBean.setI7(L_I[7].toString());
 
+        // 自定义一个字符缓冲区，
+        StringBuilder sb = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        sb.append("[ ");
+        sb2.append("[ ");
+        //遍历int数组，并将int数组中的元素转换成字符串储存到字符缓冲区中去
+        for (int i = 0; i < data_i.length; i++) {
+            if (i != data_i.length - 1) {
+                sb.append(data_i[i] + " ,");
+                sb2.append(data_q[i] + " ,");
+            } else {
+                sb.append(data_i[i] + " ]");
+                sb2.append(data_q[i] + " ]");
+            }
 
-        dataBean.setQ0(L_Q[0].toString());
-        dataBean.setQ1(L_Q[1].toString());
-        dataBean.setQ2(L_Q[2].toString());
-        dataBean.setQ3(L_Q[3].toString());
-        dataBean.setQ4(L_Q[4].toString());
-        dataBean.setQ5(L_Q[5].toString());
-        dataBean.setQ6(L_Q[6].toString());
-        dataBean.setQ7(L_Q[7].toString());
+        }
+
+        dataBean.setI(String.valueOf(sb));
+        dataBean.setQ(String.valueOf(sb2));
         dataBean.setPre_label(String.valueOf(max_index));
         dataBean.setFilename(whoandwhich + "_" + name);
 
