@@ -1,0 +1,26 @@
+//
+// Created by vae on 2018/4/28.
+//
+
+//还原模型
+import tensorflow as tf
+
+sess=tf.Session()
+
+saver = tf.train.import_meta_graph('modelname-1000.meta')
+saver.restore(sess,tf.train.latest_checkpoint('./'))
+
+
+print(sess.run('bias:0'))
+
+graph = tf.get_default_graph()
+name1 = graph.get_tensor_by_name("name1:0")
+name2 = graph.get_tensor_by_name("name2:0")
+feed_dict ={name1:data,name2:data}
+
+op_to_restore = graph.get_tensor_by_name("op_to_restore:0")
+
+print sess.run(op_to_restore,feed_dict)
+
+ 
+
