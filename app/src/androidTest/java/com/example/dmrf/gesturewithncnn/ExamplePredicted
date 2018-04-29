@@ -1,0 +1,35 @@
+//
+// Created by vae on 2018/4/27.
+//
+
+//用于加载训练好的模型
+
+import tensorflow as
+tf
+with tf.Session() as sess:
+
+saver = tf.train.Saver()
+saver=tf.train.import_meta_graph('/Users/...(.ckpt文件路径）')
+saver.restore(sess,"'(.ckpt文件路径）-100")
+graph = tf.get_default_graph()
+x=graph.get_operation_by_name('/**/').outputs[0]
+y=tf.get_collection("pred_network")[0]
+//预测结果
+result = sess.run(y,
+feed_dict={x: data})
+
+
+使用tf.train.Saver.save()方法保存模型
+
+tf.train.Saver.save(sess, save_path, global_step=None, latest_filename=None,
+meta_graph_suffix='meta', write_meta_graph=True, write_state=True)
+sess: 用于保存变量操作的会话
+save_path: String类型 用于指定训练结果的保存路径
+global_step: 如果提供的话这个数字会添加到save_path后面 用于构建checkpoint文件 这个参数有助于我们区分不同训练阶段的结果
+
+使用tf.train.Saver.restore方法价值模型
+
+tf.train.Saver.restore(sess, save_path)
+sess: 用于加载变量操作的会话
+save_path: 同保存模型是用到的的save_path参数
+
