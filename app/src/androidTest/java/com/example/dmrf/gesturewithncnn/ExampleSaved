@@ -1,0 +1,27 @@
+//
+// Created by vae on 2018/4/27.
+//
+
+//保存模型
+import tensorflow as tf
+
+name1 = tf.placeholder("元素类型", name="name1")
+name2 = tf.placeholder("元素类型", name="name2")
+b1= tf.Variable(2.0,name="bias")
+feed_dict ={name1:data,name2:data}
+
+name3 = tf.add(name1,name2)
+name4 = tf.multiply(name3,b1,name="op_to_restore")
+sess = tf.Session()
+sess.run(tf.global_variables_initializer())
+
+saver = tf.train.Saver()
+
+print sess.run(name4,feed_dict)
+
+saver.save(sess, 'modelname',global_step=1000)
+
+ 
+
+ 
+
